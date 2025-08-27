@@ -20,12 +20,18 @@ function articulos_content_fields( $content ) {
 		$seccion = get_the_terms($post->ID, 'seccion');	
                 $args = get_custom_fields_articulo();
 
-		 if($author && count($autor) > 0)
-                  $content .=  '<div class = "autor_articulo"><span> Autores: </span>'.custom_print_taxonomy($autor).'</div>';
-                if($seccion && count($seccion) > 0)
-                  $content .=  '<div class = "seccion_articulo"><span> Sección: </span>'.custom_print_taxonomy($seccion).'</div>';
-                if($numero && count($numero) > 0)
-                  $content .=  '<div class = "numero_articulo"><span> Número: </span>'.custom_print_taxonomy($numero).'</div>';
+		// Chequeo que no haya un WP_Error y que el articulo tenga el atributo cargado 
+		if(!is_wp_error( $autor) && $autor)
+			$content .=  '<div class = "autor_articulo"><span> Autores: </span>'.custom_print_taxonomy($autor).'</div>';
+		else $content .=  '<div class = "autor_articulo"><span> Autores: </span> - </div>';
+		
+		if(!is_wp_error( $seccion) && $seccion)
+			$content .=  '<div class = "seccion_articulo"><span> Sección: </span>'.custom_print_taxonomy($seccion).'</div>';
+		else $content .=  '<div class = "seccion_articulo"><span> Sección: </span> - </div>';
+		
+		if(!is_wp_error( $numero) && $numero)
+			$content .=  '<div class = "numero_articulo"><span> Número: </span>'.custom_print_taxonomy($numero).'</div>';
+		else $content .=  '<div class = "numero_articulo"><span> Número: </span> - </div>';
 
                 foreach ($args as $key => $value) {
                 	if(!empty($value)){
